@@ -39,13 +39,13 @@ class MainWindow(QMainWindow):
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
       self.setWindowTitle("STL Manager")
-      widget = QListWidget()
-      widget.addItems(self.filemap.keys())
+      list_widget = QListWidget()
+      list_widget.addItems(self.filemap.keys())
 
-      widget.currentItemChanged.connect(self.index_changed)
-      widget.currentTextChanged.connect(self.text_changed)
+      list_widget.currentItemChanged.connect(self.index_changed)
+      list_widget.currentTextChanged.connect(self.text_changed)
 
-      self.setCentralWidget(widget)
+      self.setCentralWidget(list_widget)
 
    def index_changed(self, i): # Not an index, i is a QListWidgetItem
       print(i.text())
