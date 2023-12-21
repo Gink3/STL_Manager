@@ -24,6 +24,5 @@ class FileTreeParser:
             print("Duplicate Found: " + name + ", " + str(files.count(name)) + " times")
 
 
-
 if __name__ == "__main__":
    parser = FileTreeParser("D:\\3D_Printing")
