@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
 
       self.config = configparser.ConfigParser()
       self.config.read('config.txt')
-      print(self.config['DEFAULT']['LibraryRoot'])
+      logging.info("LibraryRoot: " + self.config['DEFAULT']['LibraryRoot'])
       self.parser = FileTreeParser(self.config['DEFAULT']['LibraryRoot'])
 
       self.setWindowTitle("STL Manager")
@@ -48,6 +48,8 @@ class MainWindow(QMainWindow):
       print(s)
 
 if __name__ == "__main__":
+   logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+   logging.info("Logging initialized")
 
    # Basic QT window
    app = QApplication(sys.argv)
