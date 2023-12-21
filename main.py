@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
       self.setWindowTitle("STL Manager")
       self.window_width = self.config.getint('DEFAULT','DefaultWidth')
       self.window_height = self.config.getint('DEFAULT','Defaultheight')
-      self.setFixedSize(QSize(self.window_width, self.window_height))
+      self.resize(QSize(self.window_width, self.window_height))
 
       self.list_widget = QListWidget()
       self.list_widget.addItems(self.filemap.keys())
