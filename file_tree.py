@@ -2,23 +2,15 @@ import os
 
 
 class FileTreeParser:
-   def __init__(self):
+   def __init__(self, root):
       self.file_dict = dict()
       self.num_node_parsed = 0
-
-   def get_root_path(self):
-      root = input("Root Path: ")
-
-      # Check root string is not empty
-      if not root:
-         print("Error: Root Path is empty")
-
-      return root
+      self.root_path = root
 
 
    def check_duplicates(self):
       # define root file path
-      root = self.get_root_path()
+      root = self.root_path
       print("Parsing for duplicate .stl files from \"" + root + "\"")
       list_dir = os.listdir(root)
 
@@ -55,6 +47,5 @@ class FileTreeParser:
 
 
 if __name__ == "__main__":
-   parser = FileTreeParser()
-
+   parser = FileTreeParser("D:\\3D_Printing")
    parser.check_duplicates()
