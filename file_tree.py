@@ -30,6 +30,7 @@ class FileTreeParser:
       # TODO Check if file path is valid
       directory = Path(path)
       model_files = dict()
+      model_files[".."] = os.path.join(directory,"..")
       # iterate through directory contents
       for i in os.listdir(directory):
          filename = os.path.basename(i)
