@@ -1,4 +1,5 @@
 import os
+import logging
 from pathlib import Path
 
 class FileTreeParser:
@@ -30,9 +31,11 @@ class FileTreeParser:
       directory = Path(path)
       model_files = []
       # TODO change to accept more file formats like .obj, .3fd etc..
-      for i in directory.rglob(r"*.stl"):
-         filename = os.path.basename(i)
-         model_files.append(filename)
+      for i in os.listdir(directory):
+         if i.endswith(".stl") or i.endswith(".obj"):
+            logging.debug(i)
+            filename = os.path.basename(i)
+            model_files.append(filename)
       return model_files
    
    def get_root_path(self):
