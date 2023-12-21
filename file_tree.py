@@ -30,12 +30,19 @@ class FileTreeParser:
       # TODO Check if file path is valid
       directory = Path(path)
       model_files = dict()
-      # TODO change to accept more file formats like .obj, .3fd etc..
+      # iterate through directory contents
       for i in os.listdir(directory):
+         filename = os.path.basename(i)
+        
+         # TODO change to accept more file formats like .obj, .3fd etc..
          if i.endswith(".stl") or i.endswith(".obj"):
-            logging.debug(i)
-            filename = os.path.basename(i)
             model_files[filename] = os.path.join(directory,filename)
+         
+         # Check if item is a directory in current folder
+         if os.path.isdir(os.path.join(directory,filename)):
+            logging.debug("Found directory: " + os.path.join(directory,filename))
+            model_files[filename+"\\"] = os.path.join(directory,filename)
+
       logging.debug("list_model_files(" + path + ") Returning: " + str(model_files))
       return model_files
    
