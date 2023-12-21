@@ -1,2 +1,4 @@
 [DEFAULT]
 LibraryRoot = D:\3D_Printing
+DefaultWidth = 900
+DefaultHeight = 500

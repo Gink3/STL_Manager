@@ -8,7 +8,7 @@ from file_tree import FileTreeParser
 
 # https://build-system.fman.io/pyqt5-tutorial
 # https://www.pythonguis.com/tutorials/pyqt-basic-widgets/
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
     QApplication,
@@ -39,6 +39,10 @@ class MainWindow(QMainWindow):
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
       self.setWindowTitle("STL Manager")
+      self.window_width = self.config.getint('DEFAULT','DefaultWidth')
+      self.window_height = self.config.getint('DEFAULT','Defaultheight')
+      self.setFixedSize(QSize(self.window_width, self.window_height))
+
       self.list_widget = QListWidget()
       self.list_widget.addItems(self.filemap.keys())
 
@@ -55,6 +59,9 @@ class MainWindow(QMainWindow):
    #    logging.debug("text_changed " + s)
 
    def double_click_file(self, s):
+      """
+      Action for the list widget to navigate up or down the file tree when double clicking on a directory
+      """
       logging.debug("Double clicked on " + s.text())
       # if selected text if a directory
       if s.text().endswith("\\") or s.text() == "..":
