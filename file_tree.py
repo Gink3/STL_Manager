@@ -29,13 +29,14 @@ class FileTreeParser:
       """
       # TODO Check if file path is valid
       directory = Path(path)
-      model_files = []
+      model_files = dict()
       # TODO change to accept more file formats like .obj, .3fd etc..
       for i in os.listdir(directory):
          if i.endswith(".stl") or i.endswith(".obj"):
             logging.debug(i)
             filename = os.path.basename(i)
-            model_files.append(filename)
+            model_files[filename] = os.path.join(directory,filename)
+      logging.debug("list_model_files(" + path + ") Returning: " + str(model_files))
       return model_files
    
    def get_root_path(self):

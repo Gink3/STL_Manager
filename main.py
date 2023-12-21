@@ -27,14 +27,20 @@ class MainWindow(QMainWindow):
    def __init__(self):
       super(MainWindow, self).__init__()
 
+      # Initialize config parser
       self.config = configparser.ConfigParser()
       self.config.read('config.txt')
       logging.info("LibraryRoot: " + self.config['DEFAULT']['LibraryRoot'])
+
+      # Initialize file parser
       self.parser = FileTreeParser(self.config['DEFAULT']['LibraryRoot'])
+
+      # Map the displayed filenames to the full paths for later manipulation
+      self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
       self.setWindowTitle("STL Manager")
       widget = QListWidget()
-      widget.addItems(self.parser.list_model_files(self.parser.get_root_path()))
+      widget.addItems(self.filemap.keys())
 
       widget.currentItemChanged.connect(self.index_changed)
       widget.currentTextChanged.connect(self.text_changed)
