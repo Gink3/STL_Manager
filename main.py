@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
 
       self.setWindowTitle("STL Manager")
       widget = QListWidget()
-      widget.addItems(["One", "Two", "Three"])
+      widget.addItems(self.parser.list_model_files(self.parser.get_root_path()))
 
       widget.currentItemChanged.connect(self.index_changed)
       widget.currentTextChanged.connect(self.text_changed)
