@@ -7,7 +7,6 @@ class FileTreeParser:
       self.num_node_parsed = 0
       self.root_path = root
 
-
    def check_duplicates(self):
       """
       Checks library for duplicate files
@@ -30,10 +29,14 @@ class FileTreeParser:
       # TODO Check if file path is valid
       directory = Path(path)
       model_files = []
+      # TODO change to accept more file formats like .obj, .3fd etc..
       for i in directory.rglob(r"*.stl"):
          filename = os.path.basename(i)
          model_files.append(filename)
       return model_files
+   
+   def get_root_path(self):
+      return self.root_path
 
 if __name__ == "__main__":
    parser = FileTreeParser("D:\\3D_Printing")
