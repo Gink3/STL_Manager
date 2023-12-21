@@ -1,0 +1,2 @@
+[DEFAULT]
+LibraryRoot = D:\3D_Printing
