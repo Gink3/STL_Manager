@@ -23,6 +23,17 @@ class FileTreeParser:
          if files.count(name) > 1:
             print("Duplicate Found: " + name + ", " + str(files.count(name)) + " times")
 
+   def list_model_files(self, path):
+      """
+      Gets a list of all 3d model files from a directory
+      """
+      # TODO Check if file path is valid
+      directory = Path(path)
+      model_files = []
+      for i in directory.rglob(r"*.stl"):
+         filename = os.path.basename(i)
+         model_files.append(filename)
+      return model_files
 
 if __name__ == "__main__":
    parser = FileTreeParser("D:\\3D_Printing")
