@@ -30,9 +30,11 @@ class MainWindow(QMainWindow):
       # Initialize config parser
       self.config = configparser.ConfigParser()
       self.config.read('config.txt')
+      # TODO change parser to use getstr
       logging.info("LibraryRoot: " + self.config['DEFAULT']['LibraryRoot'])
 
       # Initialize file parser
+      # TODO change parser to use getstr
       self.parser = FileTreeParser(self.config['DEFAULT']['LibraryRoot'])
 
       # Map the displayed filenames to the full paths for later manipulation

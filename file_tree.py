@@ -14,12 +14,14 @@ class FileTreeParser:
       """
       directory = Path(self.root_path)
       files = []
+      # i is a filepath
       for i in directory.rglob(r"*.stl"):
          filename = os.path.basename(i)
          files.append(filename)
          #print(filename)
       print(len(files))
       for name in files:
+         # TODO should remove all copies if duplicate is found
          if files.count(name) > 1:
             print("Duplicate Found: " + name + ", " + str(files.count(name)) + " times")
 
