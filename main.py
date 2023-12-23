@@ -34,10 +34,11 @@ class MainWindow(QMainWindow):
       # Initialize config parser
       self.config = configparser.ConfigParser()
       self.config.read('config.txt')
-      logging.info("LibraryRoot: " + self.config['DEFAULT']['LibraryRoot'])
+      self.current_dir = self.config['DEFAULT']['LibraryRoot']
+      logging.info("LibraryRoot: " + self.current_dir)
 
       # Initialize file parser
-      self.parser = FileTreeParser(self.config['DEFAULT']['LibraryRoot'])
+      self.parser = FileTreeParser(self.current_dir)
 
       # Highest level widget
       high_box = QHBoxLayout()
@@ -49,6 +50,11 @@ class MainWindow(QMainWindow):
       # Add right column layout
       right_column_lo = QVBoxLayout()
       high_box.addLayout(right_column_lo)
+
+      # Current Directory Box
+      self.current_dir_wid = QLineEdit()
+      self.current_dir_wid.setPlaceholderText(self.current_dir)
+      right_column_lo.addWidget(self.current_dir_wid)
 
       # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
@@ -84,8 +90,13 @@ class MainWindow(QMainWindow):
       logging.debug("Double clicked on " + s.text())
       # if selected text if a directory
       if s.text().endswith("\\") or s.text() == "..":
+         # TODO Update the ".." option to remove the current folder from the path
+         # update current directory
+         self.current_dir = self.filemap[s.text()]
+         self.current_dir_wid.setPlaceholderText(self.current_dir)
+
          # regenerate filemap
-         new_filemap = self.parser.list_model_files(self.filemap[s.text()])
+         new_filemap = self.parser.list_model_files(self.current_dir)
          self.filemap = new_filemap
 
          # clear list widget and add new elements
