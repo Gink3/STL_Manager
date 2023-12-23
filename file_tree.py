@@ -27,10 +27,12 @@ class FileTreeParser:
       """
       Gets a list of all 3d model files from a directory
       """
+      logging.debug("Got to list_model_files with " + path)
       # TODO Check if file path is valid
       directory = Path(path)
       model_files = dict()
-      model_files[".."] = os.path.join(directory,"..")
+      model_files[".."] = str(directory.parent)
+      logging.debug(model_files[".."])
       # iterate through directory contents
       for i in os.listdir(directory):
          filename = os.path.basename(i)

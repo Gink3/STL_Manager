@@ -90,7 +90,6 @@ class MainWindow(QMainWindow):
       logging.debug("Double clicked on " + s.text())
       # if selected text if a directory
       if s.text().endswith("\\") or s.text() == "..":
-         # TODO Update the ".." option to remove the current folder from the path
          # update current directory
          self.current_dir = self.filemap[s.text()]
          self.current_dir_wid.setPlaceholderText(self.current_dir)
