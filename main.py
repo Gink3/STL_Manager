@@ -54,6 +54,12 @@ class MainWindow(QMainWindow):
       top_right_lo = QHBoxLayout()
       right_column_lo.addLayout(top_right_lo)
 
+      # Image preview widget
+      preview = QLabel()
+      pixmap = QPixmap('stl.png')
+      preview.setPixmap(pixmap)
+      right_column_lo.addWidget(preview)
+
       # Current Directory Box
       self.current_dir_wid = QLineEdit()
       self.current_dir_wid.setText(self.current_dir)
