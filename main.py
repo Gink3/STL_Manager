@@ -24,7 +24,8 @@ from PyQt5.QtWidgets import (
     QSpinBox,
     QHBoxLayout,
     QVBoxLayout,
-    QWidget
+    QWidget,
+    QPushButton
 )
 
 class MainWindow(QMainWindow):
@@ -53,6 +54,15 @@ class MainWindow(QMainWindow):
 
       top_right_lo = QHBoxLayout()
       right_column_lo.addLayout(top_right_lo)
+
+      # Search Text box
+      search_text = QLineEdit()
+      search_text.setPlaceholderText("Search Text")
+      top_right_lo.addWidget(search_text)
+
+      # Search button
+      search_button = QPushButton(text="Search")
+      top_right_lo.addWidget(search_button)
 
       # Image preview widget
       preview = QLabel()
