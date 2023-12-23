@@ -42,45 +42,48 @@ class MainWindow(QMainWindow):
       self.parser = FileTreeParser(self.current_dir)
 
       # Highest level widget
-      high_box = QHBoxLayout()
+      self.high_box = QHBoxLayout()
+
+      # TODO Add toolbar menu
 
       # Add left column layout
-      left_column_lo = QVBoxLayout()
+      self.left_column_lo = QVBoxLayout()
       # set spacing to be 60/40 left to right
-      # left_column_lo.set
-      high_box.addLayout(left_column_lo)
+      # self.left_column_lo.set
+      self.high_box.addLayout(self.left_column_lo)
       
       # Add right column layout
-      right_column_lo = QVBoxLayout()
-      high_box.addLayout(right_column_lo)
+      self.right_column_lo = QVBoxLayout()
+      self.high_box.addLayout(self.right_column_lo)
 
-      top_right_lo = QHBoxLayout()
-      right_column_lo.addLayout(top_right_lo)
+      self.top_right_lo = QHBoxLayout()
+      self.right_column_lo.addLayout(self.top_right_lo)
 
       # Search Text box
-      search_text = QLineEdit()
-      search_text.setPlaceholderText("Search Text")
-      top_right_lo.addWidget(search_text)
+      self.search_text = QLineEdit()
+      self.search_text.setPlaceholderText("Search Text")
+      self.top_right_lo.addWidget(self.search_text)
 
       # Search button
-      search_button = QPushButton(text="Search")
-      top_right_lo.addWidget(search_button)
+      self.search_button = QPushButton(text="Search")
+      self.top_right_lo.addWidget(self.search_button)
 
       # File Parameter Label
-      parameters = QLabel()
-      parameters.setText("File Parameters")
-      right_column_lo.addWidget(parameters)
+      self.parameters = QLabel()
+      self.parameters.setText("File Parameters")
+      self.right_column_lo.addWidget(self.parameters)
 
       # Image preview widget
       preview = QLabel()
       pixmap = QPixmap('stl.png')
       preview.setPixmap(pixmap)
-      right_column_lo.addWidget(preview)
+      self.right_column_lo.addWidget(preview)
 
       # Current Directory Box
+      # TODO Added functionality to update the list if the text is changed to a valid directory 
       self.current_dir_wid = QLineEdit()
       self.current_dir_wid.setText(self.current_dir)
-      left_column_lo.addWidget(self.current_dir_wid)
+      self.left_column_lo.addWidget(self.current_dir_wid)
 
       # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
@@ -91,17 +94,17 @@ class MainWindow(QMainWindow):
       self.resize(QSize(self.window_width, self.window_height))
 
       self.list_widget = QListWidget()
-      left_column_lo.addWidget(self.list_widget)
+      self.left_column_lo.addWidget(self.list_widget)
       self.list_widget.addItems(self.filemap.keys())
 
       # self.list_widget.currentItemChanged.connect(self.index_changed)
       # self.list_widget.currentTextChanged.connect(self.text_changed)
       self.list_widget.itemDoubleClicked.connect(self.double_click_file)
+      self.list_widget.itemClicked.connect(self.click_file)
 
-
-      widget = QWidget()
-      widget.setLayout(high_box)
-      self.setCentralWidget(widget)
+      self.main_widget = QWidget()
+      self.main_widget.setLayout(self.high_box)
+      self.setCentralWidget(self.main_widget)
 
    # def index_changed(self, i): # Not an index, i is a QListWidgetItem
    #    logging.debug("index_changed " + i.text())
@@ -126,6 +129,15 @@ class MainWindow(QMainWindow):
          # clear list widget and add new elements
          self.list_widget.clear()
          self.list_widget.addItems(self.filemap.keys())
+
+
+   def click_file(self, s):
+      """
+      Action for updating the file parameters and image preview for the selected item       
+      """
+      # TODO
+      logging.info("[[STUB click_file STUB]] <-- main.py")
+      logging.debug("Clicked on " + s.text() + " in list_widget")
 
 
    def update_current_dir(self, text):
