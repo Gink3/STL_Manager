@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import configparser
 import sys
 
@@ -21,6 +22,9 @@ from PyQt5.QtWidgets import (
     QMainWindow,
     QSlider,
     QSpinBox,
+    QHBoxLayout,
+    QVBoxLayout,
+    QWidget
 )
 
 class MainWindow(QMainWindow):
@@ -35,6 +39,17 @@ class MainWindow(QMainWindow):
       # Initialize file parser
       self.parser = FileTreeParser(self.config['DEFAULT']['LibraryRoot'])
 
+      # Highest level widget
+      high_box = QHBoxLayout()
+
+      # Add left column layout
+      left_column_lo = QVBoxLayout()
+      high_box.addLayout(left_column_lo)
+      
+      # Add right column layout
+      right_column_lo = QVBoxLayout()
+      high_box.addLayout(right_column_lo)
+
       # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
@@ -44,13 +59,17 @@ class MainWindow(QMainWindow):
       self.resize(QSize(self.window_width, self.window_height))
 
       self.list_widget = QListWidget()
+      left_column_lo.addWidget(self.list_widget)
       self.list_widget.addItems(self.filemap.keys())
 
       # self.list_widget.currentItemChanged.connect(self.index_changed)
       # self.list_widget.currentTextChanged.connect(self.text_changed)
       self.list_widget.itemDoubleClicked.connect(self.double_click_file)
 
-      self.setCentralWidget(self.list_widget)
+
+      widget = QWidget()
+      widget.setLayout(high_box)
+      self.setCentralWidget(widget)
 
    # def index_changed(self, i): # Not an index, i is a QListWidgetItem
    #    logging.debug("index_changed " + i.text())
@@ -82,3 +101,4 @@ if __name__ == "__main__":
    window = MainWindow()
    window.show()
    app.exec()
+
