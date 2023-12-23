@@ -91,8 +91,7 @@ class MainWindow(QMainWindow):
       # if selected text if a directory
       if s.text().endswith("\\") or s.text() == "..":
          # update current directory
-         self.current_dir = self.filemap[s.text()]
-         self.current_dir_wid.setPlaceholderText(self.current_dir)
+         self.update_current_dir(s.text())
 
          # regenerate filemap
          new_filemap = self.parser.list_model_files(self.current_dir)
@@ -101,6 +100,12 @@ class MainWindow(QMainWindow):
          # clear list widget and add new elements
          self.list_widget.clear()
          self.list_widget.addItems(self.filemap.keys())
+
+
+   def update_current_dir(self, text):
+      self.current_dir = self.filemap[text]
+      self.current_dir_wid.setPlaceholderText(self.current_dir)
+
 
 if __name__ == "__main__":
    logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
