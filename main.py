@@ -74,10 +74,10 @@ class MainWindow(QMainWindow):
       self.right_column_lo.addWidget(self.parameters)
 
       # Image preview widget
-      preview = QLabel()
+      self.preview = QLabel()
       pixmap = QPixmap('stl.png')
-      preview.setPixmap(pixmap)
-      self.right_column_lo.addWidget(preview)
+      self.preview.setPixmap(pixmap)
+      self.right_column_lo.addWidget(self.preview)
 
       # Current Directory Box
       # TODO Added functionality to update the list if the text is changed to a valid directory 
