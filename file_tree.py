@@ -1,6 +1,9 @@
+#!/usr/bin/python3
+
 import os
 import logging
 from pathlib import Path
+import configparser
 
 class FileTreeParser:
    def __init__(self, root):
@@ -51,6 +54,25 @@ class FileTreeParser:
    
    def get_root_path(self):
       return self.root_path
+   
+
+   def get_metadata_filename(self, model_filename):
+      """
+      model_file - 3d model file, such as .obj, .3fd, .stl
+      get the file name of the metadata file which should be in the format
+      .<file name>.mtd
+      """
+      return "." + model_filename.split(".")[0] + ".mtd"
+
 
 if __name__ == "__main__":
-   parser = FileTreeParser("D:\\3D_Printing")
+   logging.basicConfig(filename='file_tree.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+   logging.info("Logging initialized")
+
+   config = configparser.ConfigParser()
+   config.read('config.txt')
+   current_dir = config['DEFAULT']['LibraryRoot']
+
+   parser = FileTreeParser(current_dir)
+
+   logging.debug(parser.get_metadata_file("parrot.stl"))
