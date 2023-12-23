@@ -51,10 +51,13 @@ class MainWindow(QMainWindow):
       right_column_lo = QVBoxLayout()
       high_box.addLayout(right_column_lo)
 
+      top_right_lo = QHBoxLayout()
+      right_column_lo.addLayout(top_right_lo)
+
       # Current Directory Box
       self.current_dir_wid = QLineEdit()
-      self.current_dir_wid.setPlaceholderText(self.current_dir)
-      right_column_lo.addWidget(self.current_dir_wid)
+      self.current_dir_wid.setText(self.current_dir)
+      left_column_lo.addWidget(self.current_dir_wid)
 
       # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
@@ -104,7 +107,7 @@ class MainWindow(QMainWindow):
 
    def update_current_dir(self, text):
       self.current_dir = self.filemap[text]
-      self.current_dir_wid.setPlaceholderText(self.current_dir)
+      self.current_dir_wid.setText(self.current_dir)
 
 
 if __name__ == "__main__":
