@@ -46,6 +46,8 @@ class MainWindow(QMainWindow):
 
       # Add left column layout
       left_column_lo = QVBoxLayout()
+      # set spacing to be 60/40 left to right
+      # left_column_lo.set
       high_box.addLayout(left_column_lo)
       
       # Add right column layout
@@ -63,6 +65,11 @@ class MainWindow(QMainWindow):
       # Search button
       search_button = QPushButton(text="Search")
       top_right_lo.addWidget(search_button)
+
+      # File Parameter Label
+      parameters = QLabel()
+      parameters.setText("File Parameters")
+      right_column_lo.addWidget(parameters)
 
       # Image preview widget
       preview = QLabel()
