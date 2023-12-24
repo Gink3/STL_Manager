@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-12-23T20:48:44.278Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="aBIgp1D4TudFT7M3x4A3" version="22.1.11" type="device">
+<mxfile host="Electron" modified="2023-12-24T14:02:19.073Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="e_fcnNhOo6ikPpD5x4VB" version="22.1.11" type="device">
   <diagram id="xn7x9uw3wcWnhvxqpjB6" name="Page-1">
     <mxGraphModel dx="1434" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -19,7 +19,7 @@
         <mxCell id="pqbkDoGcQxDP3CVNGBb_-5" value="File parameters&lt;br&gt;(parameters)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
           <mxGeometry x="385" y="250" width="350" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="pqbkDoGcQxDP3CVNGBb_-6" value="image preview" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-6" value="image preview&lt;br&gt;(preview)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
           <mxGeometry x="385" y="420" width="350" height="270" as="geometry" />
         </mxCell>
         <mxCell id="pqbkDoGcQxDP3CVNGBb_-7" value="Search Text box(search_text)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
