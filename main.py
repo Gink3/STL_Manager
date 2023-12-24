@@ -29,6 +29,8 @@ from PyQt5.QtWidgets import (
     QPushButton
 )
 
+# TODO Setup PEP-8 linter
+
 class MainWindow(QMainWindow):
    def __init__(self):
       super(MainWindow, self).__init__()
@@ -41,6 +43,7 @@ class MainWindow(QMainWindow):
 
       # Initialize file parser
       self.parser = FileTreeParser(self.current_dir)
+      self.parser.scan_for_metadata()
 
       # Highest level widget
       self.high_box = QHBoxLayout()
@@ -133,7 +136,7 @@ class MainWindow(QMainWindow):
 
          # Check for metadata files for each file entry in the filemap
          for filepath in self.filemap.values():
-            self.check_for_mtd_file(Path(filepath))
+            self.parser.check_for_mtd_file(Path(filepath))
 
 
    def click_file(self, s):
@@ -144,37 +147,8 @@ class MainWindow(QMainWindow):
       logging.info("[[STUB click_file STUB]] <-- main.py")
       logging.debug("Clicked on " + s.text() + " in list_widget")
       logging.debug("File path associated with " + s.text() + " is " + str(self.filemap[s.text()]) )
-      metadata_filepath = self.check_for_mtd_file(Path(self.filemap[s.text()]))
+      metadata_filepath = self.parser.check_for_mtd_file(Path(self.filemap[s.text()]))
 
-
-
-   def check_for_mtd_file(self, filepath):
-      """
-      Check if the given file has a metadata file already associated with it
-      """
-      # TODO Create a filter check function for model object extensions
-      if filepath.name.endswith(".stl"):   
-         # if file path exists
-         if filepath.exists():
-            logging.debug("Filepath: " + str(filepath) + " basename: " + filepath.name)
-            # get metadata filepath
-            metadata_file = self.get_metadata_filepath(filepath)
-            # Check if metadata filepath exists
-            if metadata_file.exists():
-               logging.debug("Found metadata file: " + str(metadata_file))
-            else:
-               # if not already created, create
-               logging.debug("Metadata file not found, creating" + str(metadata_file))
-               with metadata_file.open("w", encoding="utf-8") as f:
-                  f.write("Created " + str(metadata_file))
-
-
-   def get_metadata_filepath(self, modelpath):
-      """"
-      Convert a model file path to metadata file
-      """
-      logging.debug("Entering get_metadata_filepath")
-      return modelpath.parent.joinpath("." + modelpath.name[:-3] + "mtd")
 
    def update_current_dir(self, text):
       self.current_dir = self.filemap[text]

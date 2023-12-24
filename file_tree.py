@@ -11,6 +11,7 @@ class FileTreeParser:
       self.num_node_parsed = 0
       self.root_path = root
 
+
    def check_duplicates(self):
       """
       Checks library for duplicate files
@@ -25,6 +26,7 @@ class FileTreeParser:
       for name in files:
          if files.count(name) > 1:
             print("Duplicate Found: " + name + ", " + str(files.count(name)) + " times")
+
 
    def list_model_files(self, path):
       """
@@ -54,11 +56,45 @@ class FileTreeParser:
    
 
    def scan_for_metadata(self):
-      for root, dirs, files in os.walk(self.root_path):
-         path = root.split(os.sep)
-         logging.debug((len(path) - 1) * '---' + os.path.basename(root))
-         for file in files:
-            logging.debug(len(path) * '---' + file)
+      """
+      Checks all .stl files in a library for a corresponding metadata file
+      """
+      # TODO Benchmark the performance over a larger library
+      directory = Path(self.root_path)
+      for i in directory.rglob(r"*.stl"):
+         self.check_for_mtd_file(i)
+
+
+   def check_for_mtd_file(self, filepath):
+      """
+      Check if the given file has a metadata file already associated with it
+      """
+      # TODO Create a filter check function for model object extensions
+      if filepath.name.endswith(".stl"):   
+         # if file path exists
+         if filepath.exists():
+            logging.debug("Filepath: " + str(filepath))
+            logging.debug("Basename: " + filepath.name)
+            # get metadata filepath
+            metadata_file = self.get_metadata_filepath(filepath)
+            # Check if metadata filepath exists
+            if metadata_file.exists():
+               logging.debug("Found metadata file: " + str(metadata_file))
+            else:
+               # if not already created, create
+               logging.debug("Metadata file not found, creating" + str(metadata_file))
+               # TODO Create function to generate the default metadata file contents
+               with metadata_file.open("w", encoding="utf-8") as f:
+                  f.write("Created " + str(metadata_file))
+
+
+   def get_metadata_filepath(self, modelpath):
+      """"
+      Convert a model file path to metadata file
+      """
+      logging.debug("Entering get_metadata_filepath")
+      return modelpath.parent.joinpath("." + modelpath.name[:-3] + "mtd")
+
 
    def get_root_path(self):
       return self.root_path
