@@ -4,6 +4,7 @@ import os
 import logging
 from pathlib import Path
 import configparser
+import json
 
 class FileTreeParser:
    def __init__(self, root):
@@ -83,9 +84,7 @@ class FileTreeParser:
             else:
                # if not already created, create
                logging.debug("Metadata file not found, creating" + str(metadata_file))
-               # TODO Create function to generate the default metadata file contents
-               with metadata_file.open("w", encoding="utf-8") as f:
-                  f.write("Created " + str(metadata_file))
+               self.create_metadata_file(metadata_file)
 
 
    def get_metadata_filepath(self, modelpath):
@@ -94,6 +93,27 @@ class FileTreeParser:
       """
       logging.debug("Entering get_metadata_filepath")
       return modelpath.parent.joinpath("." + modelpath.name[:-3] + "mtd")
+
+
+   def get_modelfile_filepath(self, metafile_path):
+      """"
+      Convert a model file path to metadata file
+      """
+      logging.debug("Entering get_modelfile_filepath")
+      return metafile_path.parent.joinpath(metafile_path.name[1:-3] + "mtd")
+
+
+   def create_metadata_file(self, metafile_path):
+      """
+      Create default contents of the metadata file
+      """
+      metadata = dict()
+      metadata['model'] = str(self.get_modelfile_filepath(metafile_path))
+      metadata['tags'] = []
+      with metafile_path.open("w", encoding="utf-8") as f:      
+         formatted_data = json.dumps(metadata, indent=2)
+         logging.debug("Formatted JSON: " + formatted_data)
+         f.write(formatted_data)
 
 
    def get_root_path(self):
