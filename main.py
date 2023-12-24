@@ -131,6 +131,10 @@ class MainWindow(QMainWindow):
          self.list_widget.clear()
          self.list_widget.addItems(self.filemap.keys())
 
+         # Check for metadata files for each file entry in the filemap
+         for filepath in self.filemap.values():
+            self.check_for_mtd_file(Path(filepath))
+
 
    def click_file(self, s):
       """
@@ -140,7 +144,8 @@ class MainWindow(QMainWindow):
       logging.info("[[STUB click_file STUB]] <-- main.py")
       logging.debug("Clicked on " + s.text() + " in list_widget")
       logging.debug("File path associated with " + s.text() + " is " + str(self.filemap[s.text()]) )
-      self.check_for_mtd_file(Path(self.filemap[s.text()]))
+      metadata_filepath = self.check_for_mtd_file(Path(self.filemap[s.text()]))
+
 
 
    def check_for_mtd_file(self, filepath):
