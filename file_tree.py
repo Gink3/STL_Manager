@@ -52,6 +52,14 @@ class FileTreeParser:
       logging.debug("list_model_files(" + path + ") Returning: " + str(model_files))
       return model_files
    
+
+   def scan_for_metadata(self):
+      for root, dirs, files in os.walk(self.root_path):
+         path = root.split(os.sep)
+         logging.debug((len(path) - 1) * '---' + os.path.basename(root))
+         for file in files:
+            logging.debug(len(path) * '---' + file)
+
    def get_root_path(self):
       return self.root_path
    
@@ -75,4 +83,4 @@ if __name__ == "__main__":
 
    parser = FileTreeParser(current_dir)
 
-   logging.debug(parser.get_metadata_file("parrot.stl"))
+   parser.scan_for_metadata()
