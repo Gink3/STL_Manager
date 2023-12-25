@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-12-24T14:02:19.073Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="e_fcnNhOo6ikPpD5x4VB" version="22.1.11" type="device">
+<mxfile host="Electron" modified="2023-12-25T16:07:42.228Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="OjWEhmxqw7lvTazUDAIi" version="22.1.11" type="device">
   <diagram id="xn7x9uw3wcWnhvxqpjB6" name="Page-1">
     <mxGraphModel dx="1434" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -11,7 +11,7 @@
           <mxGeometry x="30" y="100" width="730" height="50" as="geometry" />
         </mxCell>
         <mxCell id="pqbkDoGcQxDP3CVNGBb_-3" value="File list&lt;br&gt;(list_widget)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
-          <mxGeometry x="55" y="250" width="320" height="440" as="geometry" />
+          <mxGeometry x="55" y="250" width="320" height="240" as="geometry" />
         </mxCell>
         <mxCell id="pqbkDoGcQxDP3CVNGBb_-4" value="Current file path(current_dir_wid)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;align=left;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
           <mxGeometry x="55" y="200" width="320" height="40" as="geometry" />
@@ -43,11 +43,14 @@
         <mxCell id="pqbkDoGcQxDP3CVNGBb_-13" value="Edit" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
           <mxGeometry x="230" y="150" width="90" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="4s0gwBIxpT2jCFuYGQjw-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+        <mxCell id="4s0gwBIxpT2jCFuYGQjw-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
           <mxGeometry x="30" y="710" width="730" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="4s0gwBIxpT2jCFuYGQjw-2" value="12m since last scan" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="4s0gwBIxpT2jCFuYGQjw-2" value="12m since last scan" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="630" y="715" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="_KKEWPKjIevPOp9IKv5F-1" value="Selected File" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" vertex="1" parent="1">
+          <mxGeometry x="55" y="500" width="320" height="190" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
