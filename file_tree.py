@@ -126,6 +126,11 @@ class FileTreeParser:
       # Default metadata
       metadata['model'] = str(self.get_modelfile_filepath(metafile_path))
       metadata['preview_image'] = ""
+      # TODO Set timestamp of the last scan date
+      # metadata['time_last_scaned']
+      # TODO Set timestamp for the date last printed
+      # TODO Set Bool for multipart print
+      # TODO Associated files field
       metadata['presupported'] = False
       metadata['tags'] = []
 
