@@ -6,6 +6,20 @@ from pathlib import Path
 import configparser
 import json
 
+from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+# noinspection PyUnresolvedReferences
+import vtkmodules.vtkRenderingOpenGL2
+from vtkmodules.vtkCommonColor import vtkNamedColors
+from vtkmodules.vtkIOGeometry import vtkSTLReader
+from vtkmodules.vtkIOImage import vtkPNGWriter
+from vtkmodules.vtkRenderingCore import (
+    vtkActor,
+    vtkPolyDataMapper,
+    vtkRenderWindow,
+    vtkRenderer,
+    vtkWindowToImageFilter
+)
+
 class FileTreeParser:
    def __init__(self, root):
       self.file_dict = dict()
@@ -108,9 +122,15 @@ class FileTreeParser:
       Create default contents of the metadata file
       """
       metadata = dict()
+      
+      # Default metadata
       metadata['model'] = str(self.get_modelfile_filepath(metafile_path))
+      metadata['preview_image'] = ""
+      metadata['presupported'] = False
       metadata['tags'] = []
+
       with metafile_path.open("w", encoding="utf-8") as f:      
+         # convert metadata to json mapping
          formatted_data = json.dumps(metadata, indent=2)
          logging.debug("Formatted JSON: " + formatted_data)
          f.write(formatted_data)
@@ -127,6 +147,55 @@ class FileTreeParser:
       .<file name>.mtd
       """
       return "." + model_filename.split(".")[0] + ".mtd"
+
+
+   def generate_image_preview(self, model_filepath):
+      colors = vtkNamedColors()
+
+      # create a rendering window and renderer
+      ren = vtkRenderer()
+      renWin = vtkRenderWindow()
+      renWin.SetOffScreenRendering(1)
+      renWin.AddRenderer(ren)
+      renWin.SetWindowName('Screenshot')
+
+      # create a renderwindowinteractor
+      iren = QVTKRenderWindowInteractor()
+      iren.SetRenderWindow(renWin)
+
+      filename = str(model_filepath)
+
+      reader = vtkSTLReader()
+      reader.SetFileName(filename)
+
+      mapper = vtkPolyDataMapper()
+      mapper.SetInputConnection(reader.GetOutputPort())
+
+      # actor
+      actor = vtkActor()
+      actor.GetProperty().SetColor(colors.GetColor3d('Brown'))
+      actor.GetProperty().SetSpecular(0.6)
+      actor.GetProperty().SetSpecularPower(30)
+      actor.SetMapper(mapper)
+
+      # assign actor to the renderer
+      ren.AddActor(actor)
+      ren.SetBackground(colors.GetColor3d('SlateGray'))
+
+
+      renWin.Render()
+
+      # screenshot code:
+      w2if = vtkWindowToImageFilter()
+      w2if.SetInput(renWin)
+      w2if.SetInputBufferTypeToRGB()
+      w2if.ReadFrontBufferOff()
+      w2if.Update()
+
+      writer = vtkPNGWriter()
+      writer.SetFileName(filename[:-3] + "jpeg")
+      writer.SetInputConnection(w2if.GetOutputPort())
+      writer.Write()
 
 
 if __name__ == "__main__":

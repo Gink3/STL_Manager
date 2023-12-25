@@ -29,6 +29,9 @@ from PyQt5.QtWidgets import (
     QPushButton
 )
 
+
+from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+
 # TODO Setup PEP-8 linter
 
 class MainWindow(QMainWindow):
