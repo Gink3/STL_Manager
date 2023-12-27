@@ -1,1 +1,58 @@
-<mxfile host="Electron" modified="2023-12-22T00:47:06.342Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/18.0.4 Chrome/100.0.4896.143 Electron/18.2.3 Safari/537.36" etag="hiHFWUoSgey71yNG2C9N" version="18.0.4" type="device"><diagram id="xn7x9uw3wcWnhvxqpjB6" name="Page-1">3ZhdU6MwFIZ/TS+dKQQoXtpW3YvVdaeOO3u1k0IKGYFgCJb66/cEkhYaHN0R1LU3hZOTr+e8+ThM0CKtLjnO4ysWkmRiT8NqgpYT27Ycewp/0rJrLL6HGkPEaaicDoYVfSLKqOpFJQ1J0XEUjCWC5l1jwLKMBKJjw5yzbddtw5JurzmOiGFYBTgxrb9oKGI1C3d6sH8jNIp1z9ZUlaRYOytDEeOQbVsmdD5BC86YaJ7SakESCU9zaepdPFO6HxgnmXhNhfxhfb9kl8HPanmDFnfXl/P1nxPVyiNOSjVhNVix0wQ4K7OQyEamEzTfxlSQVY4DWbqFmIMtFmkCbxY8quYIF6R6dpzWfvYgG8JSIvgOXFQFpHjttBDU+/aAf6Z94hZ6T0sGq5BH+6YPVOBBgfkHSHYPJC+BbucbBnNq0/IeSqYLTopazWfgYPl5VdPR5fAUyf/V7XcovsIZ6IjrVmGQTcONz9sisqFJsmAJ43Vd5Dkzz5+pEbbsm/oH9kJwdk9aJchykOt8bGzdsUKLjNBeUMBsTxNaiDeCB8BqP7N8MxBrHPgh6gNuI8dxw2GAu24H+B5kCziye4A7zljEHYP4ouT1dGB3btjncusclD1OaJTBS0I24rOEokf7/aEYKxLuc9qHOWHogvDiC6wA5L9iCbg93C1vLPCeAZ6m8hoC0+LkkZLtF8S+vwi+hN2ejYV9ZmC/JZXcdtas+oLE+zYY+103GN8EjqNC33LWXF9wlljURy6WRy6sAZoJIG+4/RCxvCNJSgVlmelww0lR5jnjsjq6ANffMO5rI7ZChr0TQH0+BMAa+kBzGQkKWcCZKkhpGMrqc+iCPuF13ZRURs5gtDU4dz5xl7KtUrBCicGIecYyciQQbTrS0ACKmPnd69Y+qWopwpr1KOJ0LEWcGopYEcyDgU/7D1l+nvXy8rPedfnpaA+W3I0g0eOEoOdw7k0IxoNmZsTNrej/A7fPrt4HnJkl3w1+lRkAnPX5yJlJ6HlIB84+ByD3Gs2dDgMOXg8fxuqy1udFdP4X</diagram></mxfile>
+<mxfile host="Electron" modified="2023-12-25T16:07:42.228Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.11 Chrome/114.0.5735.289 Electron/25.9.8 Safari/537.36" etag="OjWEhmxqw7lvTazUDAIi" version="22.1.11" type="device">
+  <diagram id="xn7x9uw3wcWnhvxqpjB6" name="Page-1">
+    <mxGraphModel dx="1434" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="30" y="100" width="730" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-2" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;STL Manager&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;" parent="1" vertex="1">
+          <mxGeometry x="30" y="100" width="730" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-3" value="File list&lt;br&gt;(list_widget)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="55" y="250" width="320" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-4" value="Current file path(current_dir_wid)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;align=left;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="55" y="200" width="320" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-5" value="File parameters&lt;br&gt;(parameters)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="385" y="250" width="350" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-6" value="image preview&lt;br&gt;(preview)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="385" y="420" width="350" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-7" value="Search Text box(search_text)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="385" y="200" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-8" value="Tags&lt;br&gt;Date last printed&lt;br&gt;Other version&lt;br&gt;Presupported? Y/N" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="780" y="210" width="170" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-9" value="Search&lt;br&gt;(search_button)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" parent="1" vertex="1">
+          <mxGeometry x="615" y="200" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-10" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="30" y="150" width="730" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-11" value="File" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="30" y="150" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-12" value="View" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="130" y="150" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="pqbkDoGcQxDP3CVNGBb_-13" value="Edit" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="230" y="150" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4s0gwBIxpT2jCFuYGQjw-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" parent="1" vertex="1">
+          <mxGeometry x="30" y="710" width="730" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4s0gwBIxpT2jCFuYGQjw-2" value="12m since last scan" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="630" y="715" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="_KKEWPKjIevPOp9IKv5F-1" value="Selected File" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#bac8d3;strokeColor=#23445d;" vertex="1" parent="1">
+          <mxGeometry x="55" y="500" width="320" height="190" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
