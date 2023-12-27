@@ -116,7 +116,7 @@ class FileTreeParser:
       Convert a model file path to metadata file
       """
       logging.debug("Entering get_modelfile_filepath")
-      return metafile_path.parent.joinpath(metafile_path.name[1:-3] + "mtd")
+      return metafile_path.parent.joinpath(metafile_path.name[1:-3] + "stl")
 
 
    def create_metadata_file(self, metafile_path):
@@ -162,6 +162,7 @@ class FileTreeParser:
       # create a rendering window and renderer
       ren = vtkRenderer()
       renWin = vtkRenderWindow()
+      # TODO create dialog for positioning model to allow for manual screenshots
       renWin.SetOffScreenRendering(1)
       renWin.AddRenderer(ren)
       renWin.SetWindowName('Screenshot')

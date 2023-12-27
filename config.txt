@@ -1,4 +1,4 @@
 [DEFAULT]
-LibraryRoot = D:\3D_Printing
+LibraryRoot = D:\Documents\TEST_STL_DIR\Marta_Punkgirl\Boring_Bois
 DefaultWidth = 900
 DefaultHeight = 500
