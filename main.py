@@ -5,6 +5,7 @@ from pathlib import Path
 
 # https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
 import logging
+import os
 
 from file_tree import FileTreeParser 
 
@@ -17,6 +18,7 @@ from PyQt5.QtWidgets import (
     QCheckBox,
     QComboBox,
     QDoubleSpinBox,
+    QFileSystemModel,
     QLabel,
     QLineEdit,
     QListWidget,
@@ -26,6 +28,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QWidget,
+    QTreeView,
     QPushButton
 )
 
@@ -50,6 +53,9 @@ class MainWindow(QMainWindow):
 
       # Highest level widget
       self.high_box = QHBoxLayout()
+
+      # Back Button
+      self.backbutton = QPushButton("Back")
 
       # TODO Add toolbar menu
 
@@ -100,14 +106,26 @@ class MainWindow(QMainWindow):
       self.window_height = self.config.getint('DEFAULT','Defaultheight')
       self.resize(QSize(self.window_width, self.window_height))
 
-      self.list_widget = QListWidget()
-      self.left_column_lo.addWidget(self.list_widget)
-      self.list_widget.addItems(self.filemap.keys())
-
+      # File explorer viewer
+      self.tree_model = QFileSystemModel()
+      self.tree_model.setRootPath("")      
+      self.tree = QTreeView()
+      self.tree.setModel(self.tree_model)
+      self.tree.setRootIndex(self.tree_model.index(self.current_dir))
+      
+      self.tree.setAnimated(False)
+      self.tree.setIndentation(20)
+      self.tree.setSortingEnabled(True)
+      
+      self.tree.resize(640, 480) # Can change
+      # Need to make button prettier
+      self.initUI() 
+      self.left_column_lo.addWidget(self.tree)   
+      
       # self.list_widget.currentItemChanged.connect(self.index_changed)
       # self.list_widget.currentTextChanged.connect(self.text_changed)
-      self.list_widget.itemDoubleClicked.connect(self.double_click_file)
-      self.list_widget.itemClicked.connect(self.click_file)
+      self.tree.doubleClicked.connect(self.double_click_file)
+      #self.tree_widget.itemClicked.connect(self.click_file)
 
       self.main_widget = QWidget()
       self.main_widget.setLayout(self.high_box)
@@ -119,23 +137,56 @@ class MainWindow(QMainWindow):
    # def text_changed(self, s): # s is a str
    #    logging.debug("text_changed " + s)
 
-   def double_click_file(self, s):
+   # Add Back button to File Explorer widget
+   def initUI(self):
+      self.left_column_lo.addWidget(self.backbutton)
+      self.backbutton.clicked.connect(self.handle_back_clicked)
+
+   # Go back a previous directory with default Back button
+   def handle_back_clicked(self):
+      pathName = Path(self.current_dir).parent.absolute()
+      print(pathName)
+
+      self.current_dir = str(pathName)
+      self.current_dir_wid.setText(self.current_dir)
+      # regenerate filemap
+      new_filemap = self.parser.list_model_files(self.current_dir)
+      self.filemap = new_filemap
+      self.tree_model.setRootPath("")    
+      self.tree.reset()
+      self.tree.setModel(self.tree_model)        
+      self.tree.setRootIndex(self.tree_model.index(str(pathName)))
+
+      #self.list_widget.addItems(self.filemap.keys())
+
+      # Check for metadata files for each file entry in the filemap
+      for filepath in self.filemap.values():
+         self.parser.check_for_mtd_file(Path(filepath))
+
+   def double_click_file(self, index):
       """
       Action for the list widget to navigate up or down the file tree when double clicking on a directory
       """
-      logging.debug("Double clicked on " + s.text())
-      # if selected text if a directory
-      if s.text().endswith("\\") or s.text() == "..":
-         # update current directory
-         self.update_current_dir(s.text())
 
+      logging.debug("Double clicked on " + self.tree_model.filePath(index))
+      # if selected text if a directory
+      if os.path.isdir(self.tree_model.filePath(index)):
+
+         # update current directory (Can add this back)
+         #self.filemap.add[self.parser.get_root_path()]
+         #self.update_current_dir(self.tree_model.filePath(index))
+
+         self.current_dir = self.tree_model.filePath(index)
+         self.current_dir_wid.setText(self.current_dir)
          # regenerate filemap
          new_filemap = self.parser.list_model_files(self.current_dir)
          self.filemap = new_filemap
+         self.tree_model.setRootPath("")    
+         self.tree.reset()
+         self.tree.setModel(self.tree_model)        
+         self.tree.setRootIndex(self.tree_model.index(self.tree_model.filePath(index)))
 
-         # clear list widget and add new elements
-         self.list_widget.clear()
-         self.list_widget.addItems(self.filemap.keys())
+         #self.list_widget.addItems(self.filemap.keys())
 
          # Check for metadata files for each file entry in the filemap
          for filepath in self.filemap.values():
@@ -154,7 +205,8 @@ class MainWindow(QMainWindow):
 
 
    def update_current_dir(self, text):
-      self.current_dir = self.filemap[text]
+      #print(self.filemap)
+      #self.current_dir = self.filemap[text]
       self.current_dir_wid.setText(self.current_dir)
 
 
