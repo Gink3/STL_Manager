@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
       self.tree.setSortingEnabled(True)
       
       self.tree.resize(640, 480) # Can change
-      # Need to make button prettier
+      # TODO Need to make button prettier
       self.initUI() 
       self.left_column_lo.addWidget(self.tree)   
       
@@ -137,13 +137,17 @@ class MainWindow(QMainWindow):
    # def text_changed(self, s): # s is a str
    #    logging.debug("text_changed " + s)
 
-   # Add Back button to File Explorer widget
    def initUI(self):
+      """
+      Add Back button to File Explorer widget
+      """
       self.left_column_lo.addWidget(self.backbutton)
       self.backbutton.clicked.connect(self.handle_back_clicked)
 
-   # Go back a previous directory with default Back button
    def handle_back_clicked(self):
+      """
+      Go back a previous directory with default Back button
+      """
       pathName = Path(self.current_dir).parent.absolute()
       print(pathName)
 
