@@ -137,6 +137,7 @@ class MainWindow(QMainWindow):
 
       # Include certain file extension to be displayed via proxy 
       self.tree_model.setNameFilters(['*.stl'])
+      self.tree_model.setNameFilterDisables(False)
 
       self.tree = QTreeView()
       self.tree.setModel(self.tree_model)
