@@ -161,8 +161,10 @@ class MainWindow(QMainWindow):
       self.main_widget.setLayout(self.high_box)
       self.setCentralWidget(self.main_widget)
       
-   # Go back a previous directory with default Back button
    def handle_back_clicked(self):
+      """
+      Go back a previous directory with default Back button
+      """
       pathName = Path(self.current_dir).parent.absolute()
       print(pathName)
 
