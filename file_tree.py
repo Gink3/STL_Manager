@@ -58,7 +58,7 @@ class FileTreeParser:
          filename = os.path.basename(i)
         
          # TODO change to accept more file formats like .obj, .3fd etc..
-         if i.endswith(".stl") or i.endswith(".obj"):
+         if i.endswith(".stl"):
             model_files[filename] = os.path.join(directory,filename)
          
          # Check if item is a directory in current folder

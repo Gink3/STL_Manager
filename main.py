@@ -11,7 +11,7 @@ from file_tree import FileTreeParser
 
 # https://build-system.fman.io/pyqt5-tutorial
 # https://www.pythonguis.com/tutorials/pyqt-basic-widgets/
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, QSortFilterProxyModel
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
     QApplication,
@@ -37,6 +37,28 @@ from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
 
 # TODO Setup PEP-8 linter
 
+class HandleFileTypesProxy(QSortFilterProxyModel):
+   """
+   A proxy model that excludes files from the view
+   that end with the given extension
+   """
+   def __init__(self, excludes, *args, **kwargs):
+      super(HandleFileTypesProxy, self).__init__(*args, **kwargs)
+      self._excludes = excludes[:]
+
+   def filterAcceptsRow(self, srcRow, srcParent):
+      idx = self.sourceModel().index(srcRow, 0, srcParent)
+      name = idx.data()
+
+      # Can do whatever kind of tests you want here,
+      # against the name
+      for exc in self._excludes:
+         print(exc)
+         if not name.endswith(exc):
+               return False
+      
+      return True
+
 class MainWindow(QMainWindow):
    def __init__(self):
       super(MainWindow, self).__init__()
@@ -54,9 +76,6 @@ class MainWindow(QMainWindow):
       # Highest level widget
       self.high_box = QHBoxLayout()
 
-      # Back Button
-      self.backbutton = QPushButton("Back")
-
       # TODO Add toolbar menu
 
       # Add left column layout
@@ -71,6 +90,9 @@ class MainWindow(QMainWindow):
 
       self.top_right_lo = QHBoxLayout()
       self.right_column_lo.addLayout(self.top_right_lo)
+
+      self.top_left_lo = QHBoxLayout()
+      self.left_column_lo.addLayout(self.top_left_lo)
 
       # Search Text box
       self.search_text = QLineEdit()
@@ -96,7 +118,7 @@ class MainWindow(QMainWindow):
       # TODO Added functionality to update the list if the text is changed to a valid directory 
       self.current_dir_wid = QLineEdit()
       self.current_dir_wid.setText(self.current_dir)
-      self.left_column_lo.addWidget(self.current_dir_wid)
+      self.top_left_lo.addWidget(self.current_dir_wid, 75)
 
       # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
@@ -106,9 +128,16 @@ class MainWindow(QMainWindow):
       self.window_height = self.config.getint('DEFAULT','Defaultheight')
       self.resize(QSize(self.window_width, self.window_height))
 
+      # Back Button
+      self.backbutton = QPushButton(text="Back")
+
       # File explorer viewer
       self.tree_model = QFileSystemModel()
-      self.tree_model.setRootPath("")      
+      self.idx = self.tree_model.setRootPath(self.current_dir)   
+
+      # Include certain file extension to be displayed via proxy 
+      self.tree_model.setNameFilters(['*.stl'])
+
       self.tree = QTreeView()
       self.tree.setModel(self.tree_model)
       self.tree.setRootIndex(self.tree_model.index(self.current_dir))
@@ -118,8 +147,9 @@ class MainWindow(QMainWindow):
       self.tree.setSortingEnabled(True)
       
       self.tree.resize(640, 480) # Can change
-      # TODO Need to make button prettier
-      self.initUI() 
+      
+      self.top_left_lo.addWidget(self.backbutton, 25)
+      self.backbutton.clicked.connect(self.handle_back_clicked)
       self.left_column_lo.addWidget(self.tree)   
       
       # self.list_widget.currentItemChanged.connect(self.index_changed)
@@ -130,24 +160,9 @@ class MainWindow(QMainWindow):
       self.main_widget = QWidget()
       self.main_widget.setLayout(self.high_box)
       self.setCentralWidget(self.main_widget)
-
-   # def index_changed(self, i): # Not an index, i is a QListWidgetItem
-   #    logging.debug("index_changed " + i.text())
-
-   # def text_changed(self, s): # s is a str
-   #    logging.debug("text_changed " + s)
-
-   def initUI(self):
-      """
-      Add Back button to File Explorer widget
-      """
-      self.left_column_lo.addWidget(self.backbutton)
-      self.backbutton.clicked.connect(self.handle_back_clicked)
-
+      
+   # Go back a previous directory with default Back button
    def handle_back_clicked(self):
-      """
-      Go back a previous directory with default Back button
-      """
       pathName = Path(self.current_dir).parent.absolute()
       print(pathName)
 
