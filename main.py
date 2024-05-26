@@ -130,6 +130,10 @@ class MainWindow(QMainWindow):
 
       # Back Button
       self.backbutton = QPushButton(text="Back")
+      # TODO Display collapsable file tree for ease of navigation
+      self.list_widget = QListWidget()
+      self.left_column_lo.addWidget(self.list_widget)
+      self.list_widget.addItems(self.filemap.keys())
 
       # File explorer viewer
       self.tree_model = QFileSystemModel()
