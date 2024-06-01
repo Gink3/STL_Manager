@@ -100,7 +100,7 @@ class FileTreeParser:
             else:
                # if not already created, create
                logging.debug("Metadata file not found, creating" + str(metadata_file))
-               self.create_metadata_file(metadata_file)
+               self.create_metadata_file(metadata_file, filepath)
 
 
    def get_metadata_filepath(self, modelpath):
@@ -119,7 +119,7 @@ class FileTreeParser:
       return metafile_path.parent.joinpath(metafile_path.name[1:-3] + "stl")
 
 
-   def create_metadata_file(self, metafile_path):
+   def create_metadata_file(self, metafile_path, modelpath):
       """
       Create default contents of the metadata file
       """
@@ -127,7 +127,7 @@ class FileTreeParser:
       
       # Default metadata
       metadata['model'] = str(self.get_modelfile_filepath(metafile_path))
-      metadata['preview_image'] = ""
+      metadata['preview_image'] = self.generate_image_preview(modelpath)
       # TODO Set timestamp of the last scan date
       # metadata['time_last_scaned']
       # TODO Set timestamp for the date last printed
@@ -204,6 +204,7 @@ class FileTreeParser:
       writer.SetFileName(filename[:-3] + "jpeg")
       writer.SetInputConnection(w2if.GetOutputPort())
       writer.Write()
+      return filename[:-3] + "jpeg"
 
 
 if __name__ == "__main__":
