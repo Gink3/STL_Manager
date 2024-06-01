@@ -156,7 +156,7 @@ class MainWindow(QMainWindow):
       # self.list_widget.currentItemChanged.connect(self.index_changed)
       # self.list_widget.currentTextChanged.connect(self.text_changed)
       self.tree.doubleClicked.connect(self.double_click_file)
-      #self.tree_widget.itemClicked.connect(self.click_file)
+      self.tree.clicked.connect(self.click_file)
 
       self.main_widget = QWidget()
       self.main_widget.setLayout(self.high_box)
@@ -189,7 +189,6 @@ class MainWindow(QMainWindow):
       """
       Action for the list widget to navigate up or down the file tree when double clicking on a directory
       """
-
       logging.debug("Double clicked on " + self.tree_model.filePath(index))
       # if selected text if a directory
       if os.path.isdir(self.tree_model.filePath(index)):
@@ -215,15 +214,15 @@ class MainWindow(QMainWindow):
             self.parser.check_for_mtd_file(Path(filepath))
 
 
-   def click_file(self, s):
+   def click_file(self, index):
       """
       Action for updating the file parameters and image preview for the selected item       
       """
       # TODO
-      logging.info("[[STUB click_file STUB]] <-- main.py")
-      logging.debug("Clicked on " + s.text() + " in list_widget")
-      logging.debug("File path associated with " + s.text() + " is " + str(self.filemap[s.text()]) )
-      metadata_filepath = self.parser.check_for_mtd_file(Path(self.filemap[s.text()]))
+      logging.debug("File path associated with " + str(self.tree_model.filePath(index)) )
+      filePath = Path(self.tree_model.filePath(index))
+      self.parameters.setText(os.path.basename(filePath))
+      metadata_filepath = self.parser.check_for_mtd_file(Path(self.tree_model.filePath(index)))
 
 
    def update_current_dir(self, text):
