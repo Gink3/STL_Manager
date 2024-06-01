@@ -1,0 +1,4 @@
+[DEFAULT]
+LibraryRoot = /home/eanevans/3D_Printing
+DefaultWidth = 900
+DefaultHeight = 500
