@@ -122,8 +122,6 @@ class MainWindow(QMainWindow):
 
       # Image preview widget
       self.preview = QLabel()
-      pixmap = QPixmap('stl.png')
-      self.preview.setPixmap(pixmap)
       self.right_column_lo.addWidget(self.preview)
       
       self.renders_layout = QVBoxLayout()
