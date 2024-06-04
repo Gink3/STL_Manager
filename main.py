@@ -136,19 +136,13 @@ class MainWindow(QMainWindow):
       # # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
-      self.setWindowTitle("STL Manager")
-      self.window_width = self.config.getint('DEFAULT','DefaultWidth')
-      self.window_height = self.config.getint('DEFAULT','Defaultheight')
-      self.resize(QSize(self.window_width, self.window_height))
+      self.init_window_settings()
 
-      # Back Button
-      self.backbutton = QPushButton(text="Back")
+      
+      
 
-      self.file_explorer()
-
-      self.top_left_lo.addWidget(self.backbutton, 25)
-      self.backbutton.clicked.connect(self.handle_back_clicked)
-      self.left_column_lo.addWidget(self.tree)   
+      self.init_file_explorer()
+      self.init_back_button()
       
       # self.list_widget.currentItemChanged.connect(self.index_changed)
       # self.list_widget.currentTextChanged.connect(self.text_changed)
@@ -264,8 +258,21 @@ class MainWindow(QMainWindow):
       self.show()
       self.iren.Initialize()
 
+   def init_window_settings(self):
+      self.setWindowTitle("STL Manager")
+      self.window_width = self.config.getint('DEFAULT','DefaultWidth')
+      self.window_height = self.config.getint('DEFAULT','Defaultheight')
+      self.resize(QSize(self.window_width, self.window_height))
 
-   def file_explorer(self):
+
+   def init_back_button(self):
+      # Back Button
+      self.backbutton = QPushButton(text="Back")
+      self.top_left_lo.addWidget(self.backbutton, 25)
+      self.backbutton.clicked.connect(self.handle_back_clicked)
+      self.left_column_lo.addWidget(self.tree)   
+
+   def init_file_explorer(self):
       # File explorer viewer
       self.tree_model = QFileSystemModel()
       self.idx = self.tree_model.setRootPath(self.current_dir)   
