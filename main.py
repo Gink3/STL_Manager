@@ -1,18 +1,11 @@
-#!/usr/bin/python3
-import configparser
 import sys
-from pathlib import Path
+import vtk
+from PyQt5 import QtCore, QtGui
+from PyQt5 import Qt
 
-# https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
-import logging
-import os
-
-from file_tree import FileTreeParser 
-
-# https://build-system.fman.io/pyqt5-tutorial
-# https://www.pythonguis.com/tutorials/pyqt-basic-widgets/
 from PyQt5.QtCore import QSize, Qt, QSortFilterProxyModel
 from PyQt5.QtGui import QPixmap
+from vtkmodules.vtkIOGeometry import vtkSTLReader
 from PyQt5.QtWidgets import (
     QApplication,
     QCheckBox,
@@ -29,39 +22,60 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
     QTreeView,
-    QPushButton
+    QPushButton,
+    QFrame
 )
-
-
+from vtkmodules.vtkCommonColor import vtkNamedColors
 from vtkmodules.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+from vtkmodules.vtkFiltersSources import vtkSphereSource
+from vtkmodules.vtkRenderingCore import (
+    vtkActor,
+    vtkPolyDataMapper,
+    vtkRenderer
+)
+import configparser
+import sys
+from pathlib import Path
+
+# https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
+import logging
+import os
+
+from file_tree import FileTreeParser 
+
+
 
 # TODO Setup PEP-8 linter
 
-class HandleFileTypesProxy(QSortFilterProxyModel):
-   """
-   A proxy model that excludes files from the view
-   that end with the given extension
-   """
-   def __init__(self, excludes, *args, **kwargs):
-      super(HandleFileTypesProxy, self).__init__(*args, **kwargs)
-      self._excludes = excludes[:]
+# class HandleFileTypesProxy(QSortFilterProxyModel):
+#    """
+#    A proxy model that excludes files from the view
+#    that end with the given extension
+#    """
+#    def __init__(self, excludes, *args, **kwargs):
+#       super(HandleFileTypesProxy, self).__init__(*args, **kwargs)
+#       self._excludes = excludes[:]
 
-   def filterAcceptsRow(self, srcRow, srcParent):
-      idx = self.sourceModel().index(srcRow, 0, srcParent)
-      name = idx.data()
+#    def filterAcceptsRow(self, srcRow, srcParent):
+#       idx = self.sourceModel().index(srcRow, 0, srcParent)
+#       name = idx.data()
 
-      # Can do whatever kind of tests you want here,
-      # against the name
-      for exc in self._excludes:
-         print(exc)
-         if not name.endswith(exc):
-               return False
+#       # Can do whatever kind of tests you want here,
+#       # against the name
+#       for exc in self._excludes:
+#          print(exc)
+#          if not name.endswith(exc):
+#                return False
       
-      return True
+#       return True
 
 class MainWindow(QMainWindow):
-   def __init__(self):
-      super(MainWindow, self).__init__()
+
+   def __init__(self, parent = None):
+      QMainWindow.__init__(self, parent)
+
+      self.selected_file = None
+      self.colors = vtkNamedColors()
 
       # Initialize config parser
       self.config = configparser.ConfigParser()
@@ -80,11 +94,9 @@ class MainWindow(QMainWindow):
 
       # Add left column layout
       self.left_column_lo = QVBoxLayout()
-      # set spacing to be 60/40 left to right
-      # self.left_column_lo.set
       self.high_box.addLayout(self.left_column_lo)
       
-      # Add right column layout
+      # # Add right column layout
       self.right_column_lo = QVBoxLayout()
       self.high_box.addLayout(self.right_column_lo)
 
@@ -113,14 +125,14 @@ class MainWindow(QMainWindow):
       pixmap = QPixmap('stl.png')
       self.preview.setPixmap(pixmap)
       self.right_column_lo.addWidget(self.preview)
-
+      
       # Current Directory Box
       # TODO Added functionality to update the list if the text is changed to a valid directory 
       self.current_dir_wid = QLineEdit()
       self.current_dir_wid.setText(self.current_dir)
       self.top_left_lo.addWidget(self.current_dir_wid, 75)
 
-      # Map the displayed filenames to the full paths for later manipulation
+      # # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
       self.setWindowTitle("STL Manager")
@@ -192,11 +204,6 @@ class MainWindow(QMainWindow):
       logging.debug("Double clicked on " + self.tree_model.filePath(index))
       # if selected text if a directory
       if os.path.isdir(self.tree_model.filePath(index)):
-
-         # update current directory (Can add this back)
-         #self.filemap.add[self.parser.get_root_path()]
-         #self.update_current_dir(self.tree_model.filePath(index))
-
          self.current_dir = self.tree_model.filePath(index)
          self.current_dir_wid.setText(self.current_dir)
          # regenerate filemap
@@ -207,8 +214,6 @@ class MainWindow(QMainWindow):
          self.tree.setModel(self.tree_model)        
          self.tree.setRootIndex(self.tree_model.index(self.tree_model.filePath(index)))
 
-         #self.list_widget.addItems(self.filemap.keys())
-
          # Check for metadata files for each file entry in the filemap
          for filepath in self.filemap.values():
             self.parser.check_for_mtd_file(Path(filepath))
@@ -218,11 +223,54 @@ class MainWindow(QMainWindow):
       """
       Action for updating the file parameters and image preview for the selected item       
       """
-      # TODO
       logging.debug("File path associated with " + str(self.tree_model.filePath(index)) )
       filePath = Path(self.tree_model.filePath(index))
-      self.parameters.setText(os.path.basename(filePath))
-      metadata_filepath = self.parser.check_for_mtd_file(Path(self.tree_model.filePath(index)))
+      
+      if os.path.basename(filePath).endswith("stl"):
+         self.selected_file = filePath
+         self.parameters.setText( os.path.basename((self.selected_file)) )
+         metadata_filepath = self.parser.check_for_mtd_file(Path(self.tree_model.filePath(index)))
+         
+         # If preview is the placeholder label, replace placehoder with file info
+         # panels
+         if isinstance(self.preview,QLabel):
+            self.preview.setParent(None)
+            
+            self.frame = QFrame()
+            self.vl = QVBoxLayout()
+            self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
+            self.vl.addWidget(self.vtkWidget)
+
+            self.ren = vtkRenderer()
+            self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+            self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
+
+            self.reader = vtkSTLReader()
+            self.reader.SetFileName("Circle_25mm_A.stl")
+
+            # Create a mapper
+            self.mapper = vtkPolyDataMapper()
+            self.mapper.SetInputConnection(self.reader.GetOutputPort())
+
+            # Create an actor
+            self.actor = vtkActor()
+            self.actor.SetMapper(self.mapper)
+
+            self.ren.AddActor(self.actor)
+            self.ren.SetBackground(self.colors.GetColor3d('DarkCyan'))
+
+            self.ren.ResetCamera()
+
+            self.frame.setLayout(self.vl)
+            self.right_column_lo.addWidget(self.frame)
+            
+            self.show()
+            self.iren.Initialize()
+            
+         # If preview is not the placehoder, update the corresponding widgets
+         else:
+            print("STUB Update ")
+
 
 
    def update_current_dir(self, text):
@@ -232,12 +280,12 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-   logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-   logging.info("Logging initialized")
+   # logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+   # logging.info("Logging initialized")
 
    # Basic QT window
-   app = QApplication(sys.argv)
+   app = QApplication([])
    window = MainWindow()
    window.show()
-   app.exec()
+   sys.exit(app.exec_())
 
