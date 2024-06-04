@@ -137,10 +137,6 @@ class MainWindow(QMainWindow):
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
       self.init_window_settings()
-
-      
-      
-
       self.init_file_explorer()
       self.init_back_button()
       
@@ -175,6 +171,7 @@ class MainWindow(QMainWindow):
       # Check for metadata files for each file entry in the filemap
       for filepath in self.filemap.values():
          self.parser.check_for_mtd_file(Path(filepath))
+
 
    def double_click_file(self, index):
       """
@@ -217,7 +214,6 @@ class MainWindow(QMainWindow):
             self.preview = None
 
          self.update_render(filePath)
-
             
 
    def update_render(self,stl_filepath):
@@ -258,6 +254,7 @@ class MainWindow(QMainWindow):
       self.show()
       self.iren.Initialize()
 
+
    def init_window_settings(self):
       self.setWindowTitle("STL Manager")
       self.window_width = self.config.getint('DEFAULT','DefaultWidth')
@@ -271,6 +268,7 @@ class MainWindow(QMainWindow):
       self.top_left_lo.addWidget(self.backbutton, 25)
       self.backbutton.clicked.connect(self.handle_back_clicked)
       self.left_column_lo.addWidget(self.tree)   
+
 
    def init_file_explorer(self):
       # File explorer viewer
