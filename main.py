@@ -144,24 +144,8 @@ class MainWindow(QMainWindow):
       # Back Button
       self.backbutton = QPushButton(text="Back")
 
-      # File explorer viewer
-      self.tree_model = QFileSystemModel()
-      self.idx = self.tree_model.setRootPath(self.current_dir)   
+      self.file_explorer()
 
-      # Include certain file extension to be displayed via proxy 
-      self.tree_model.setNameFilters(['*.stl'])
-      self.tree_model.setNameFilterDisables(False)
-
-      self.tree = QTreeView()
-      self.tree.setModel(self.tree_model)
-      self.tree.setRootIndex(self.tree_model.index(self.current_dir))
-      
-      self.tree.setAnimated(False)
-      self.tree.setIndentation(20)
-      self.tree.setSortingEnabled(True)
-      
-      self.tree.resize(640, 480) # Can change
-      
       self.top_left_lo.addWidget(self.backbutton, 25)
       self.backbutton.clicked.connect(self.handle_back_clicked)
       self.left_column_lo.addWidget(self.tree)   
@@ -279,6 +263,28 @@ class MainWindow(QMainWindow):
       
       self.show()
       self.iren.Initialize()
+
+
+   def file_explorer(self):
+      # File explorer viewer
+      self.tree_model = QFileSystemModel()
+      self.idx = self.tree_model.setRootPath(self.current_dir)   
+
+      # Include certain file extension to be displayed via proxy 
+      self.tree_model.setNameFilters(['*.stl'])
+      self.tree_model.setNameFilterDisables(False)
+
+      self.tree = QTreeView()
+      self.tree.setModel(self.tree_model)
+      self.tree.setRootIndex(self.tree_model.index(self.current_dir))
+      
+      self.tree.setAnimated(False)
+      self.tree.setIndentation(20)
+      self.tree.setSortingEnabled(True)
+      
+      # Resize name row
+      old_length = self.tree.columnWidth(0)
+      self.tree.setColumnWidth(0, old_length * 2)
 
 
    def update_current_dir(self, text):
