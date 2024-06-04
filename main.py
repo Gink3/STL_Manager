@@ -43,7 +43,10 @@ import os
 
 from file_tree import FileTreeParser 
 
+import signal
 
+# handle Ctrl + C
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # TODO Setup PEP-8 linter
 
