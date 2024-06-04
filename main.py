@@ -101,7 +101,8 @@ class MainWindow(QMainWindow):
       self.main_widget = QWidget()
       self.main_widget.setLayout(self.high_box)
       self.setCentralWidget(self.main_widget)
-      
+
+
    def handle_back_clicked(self):
       """
       Go back a previous directory with default Back button
@@ -333,6 +334,8 @@ if __name__ == "__main__":
 
    # Basic QT window
    app = QApplication([])
+   with open("stylesheet.qss") as fh:
+      app.setStyleSheet(fh.read())
    window = MainWindow()
    window.show()
    sys.exit(app.exec_())
