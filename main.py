@@ -126,6 +126,9 @@ class MainWindow(QMainWindow):
       self.preview.setPixmap(pixmap)
       self.right_column_lo.addWidget(self.preview)
       
+      self.renders_layout = QVBoxLayout()
+      self.right_column_lo.addLayout(self.renders_layout)
+      
       # Current Directory Box
       # TODO Added functionality to update the list if the text is changed to a valid directory 
       self.current_dir_wid = QLineEdit()
@@ -237,75 +240,47 @@ class MainWindow(QMainWindow):
             self.preview.setParent(None)
             self.preview = None
 
-            self.frame = QFrame()
-            self.vl = QVBoxLayout()
-            self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
-            self.vl.addWidget(self.vtkWidget)
+         self.update_render(filePath)
 
-            self.ren = vtkRenderer()
-            self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
-            self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
-
-            self.reader = vtkSTLReader()
-            self.reader.SetFileName(filePath)
-            self.reader.Update()
-
-            # Create a mapper
-            self.mapper = vtkPolyDataMapper()
-            self.mapper.SetInputConnection(self.reader.GetOutputPort())
-
-            # Create an actor
-            self.actor = vtkActor()
-            self.actor.GetProperty().SetDiffuseColor(self.colors.GetColor3d('LightSteelBlue'))
-            self.actor.SetMapper(self.mapper)
-
-            self.ren.AddActor(self.actor)
-            self.ren.SetBackground(self.colors.GetColor3d('DimGray'))
-
-            self.ren.ResetCamera()
-
-            self.frame.setLayout(self.vl)
-            self.right_column_lo.addWidget(self.frame)
             
-            self.show()
-            self.iren.Initialize()
 
-         # If preview is not the placehoder, update the corresponding widgets
-         else:
-            self.right_column_lo.removeWidget(self.frame)
-            self.frame = QFrame()
-            self.vl = QVBoxLayout()
-            self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
-            self.vl.addWidget(self.vtkWidget)
+   def update_render(self,stl_filepath):
+      # if not empty 
+      if not self.renders_layout.isEmpty():
+         self.renders_layout.removeWidget(self.frame)
 
-            self.ren = vtkRenderer()
-            self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
-            self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
+      self.frame = QFrame()
+      self.vl = QVBoxLayout()
+      self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
+      self.vl.addWidget(self.vtkWidget)
 
-            self.reader = vtkSTLReader()
-            self.reader.SetFileName(filePath)
-            self.reader.Update()
+      self.ren = vtkRenderer()
+      self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+      self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
 
-            # Create a mapper
-            self.mapper = vtkPolyDataMapper()
-            self.mapper.SetInputConnection(self.reader.GetOutputPort())
+      self.reader = vtkSTLReader()
+      self.reader.SetFileName(stl_filepath)
+      self.reader.Update()
 
-            # Create an actor
-            self.actor = vtkActor()
-            self.actor.GetProperty().SetDiffuseColor(self.colors.GetColor3d('LightSteelBlue'))
-            self.actor.SetMapper(self.mapper)
+      # Create a mapper
+      self.mapper = vtkPolyDataMapper()
+      self.mapper.SetInputConnection(self.reader.GetOutputPort())
 
-            self.ren.AddActor(self.actor)
-            self.ren.SetBackground(self.colors.GetColor3d('DimGray'))
+      # Create an actor
+      self.actor = vtkActor()
+      self.actor.GetProperty().SetDiffuseColor(self.colors.GetColor3d('LightSteelBlue'))
+      self.actor.SetMapper(self.mapper)
 
-            self.ren.ResetCamera()
+      self.ren.AddActor(self.actor)
+      self.ren.SetBackground(self.colors.GetColor3d('DimGray'))
 
-            self.frame.setLayout(self.vl)
-            self.right_column_lo.addWidget(self.frame)
-            
-            self.show()
-            self.iren.Initialize()
+      self.ren.ResetCamera()
 
+      self.frame.setLayout(self.vl)
+      self.renders_layout.addWidget(self.frame)
+      
+      self.show()
+      self.iren.Initialize()
 
 
    def update_current_dir(self, text):
@@ -315,7 +290,7 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-   
+
    logFile ='stl_manager.log'
    if (os.path.exists(logFile)):
       os.remove(logFile)
