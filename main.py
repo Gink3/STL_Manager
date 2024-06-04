@@ -235,7 +235,8 @@ class MainWindow(QMainWindow):
          # panels
          if isinstance(self.preview,QLabel):
             self.preview.setParent(None)
-            
+            self.preview = None
+
             self.frame = QFrame()
             self.vl = QVBoxLayout()
             self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
@@ -246,7 +247,8 @@ class MainWindow(QMainWindow):
             self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
 
             self.reader = vtkSTLReader()
-            self.reader.SetFileName("Circle_25mm_A.stl")
+            self.reader.SetFileName(filePath)
+            self.reader.Update()
 
             # Create a mapper
             self.mapper = vtkPolyDataMapper()
@@ -266,10 +268,41 @@ class MainWindow(QMainWindow):
             
             self.show()
             self.iren.Initialize()
-            
+
          # If preview is not the placehoder, update the corresponding widgets
          else:
-            print("STUB Update ")
+            self.right_column_lo.removeWidget(self.frame)
+            self.frame = QFrame()
+            self.vl = QVBoxLayout()
+            self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
+            self.vl.addWidget(self.vtkWidget)
+
+            self.ren = vtkRenderer()
+            self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+            self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
+
+            self.reader = vtkSTLReader()
+            self.reader.SetFileName(filePath)
+            self.reader.Update()
+
+            # Create a mapper
+            self.mapper = vtkPolyDataMapper()
+            self.mapper.SetInputConnection(self.reader.GetOutputPort())
+
+            # Create an actor
+            self.actor = vtkActor()
+            self.actor.SetMapper(self.mapper)
+
+            self.ren.AddActor(self.actor)
+            self.ren.SetBackground(self.colors.GetColor3d('DarkCyan'))
+
+            self.ren.ResetCamera()
+
+            self.frame.setLayout(self.vl)
+            self.right_column_lo.addWidget(self.frame)
+            
+            self.show()
+            self.iren.Initialize()
 
 
 
