@@ -1,4 +1,4 @@
 [DEFAULT]
 LibraryRoot = D:\Documents\TEST_STL_DIR
-DefaultWidth = 900
-DefaultHeight = 500
+DefaultWidth = 1600
+DefaultHeight = 1200
