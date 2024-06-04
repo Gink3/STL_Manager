@@ -1,3 +1,39 @@
-QWidget {
-   background-color: #494947
+/*
+DARKER_GREY = '#393939'
+DARK_GREY = '#494947'
+LIGHT_GREY = '#787878'
+AMETHYST = '#6331A5'
+AQUAMARINE = '#5DFDCB'
+TURQUOISE = '#2FE6DE'
+*/
+
+QFileSystemModel, QTreeView, QLabel, QFrame {
+   background-color: #393939;
+   color: #6331A5;
+   border-radius: 10px;
+   font-weight: normal;
+   font: 15px;
 }
+
+QLineEdit {
+   background-color: #393939;
+   color: #6331A5;
+   border-radius: 10px;
+   font: 15px;
+}
+
+QHeaderView {
+   background-color: #494947;
+}
+
+QPushButton {
+   background-color: #393939;
+   color: #6331A5;
+   border-radius: 10px;
+   font: 15px;
+}
+
+QWidget#main_widget {
+   background-color: #494947;
+}
+

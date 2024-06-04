@@ -98,7 +98,7 @@ class MainWindow(QMainWindow):
       self.init_file_explorer()
       self.init_back_button()
 
-      self.main_widget = QWidget()
+      self.main_widget = QWidget(objectName='main_widget')
       self.main_widget.setLayout(self.high_box)
       self.setCentralWidget(self.main_widget)
 
@@ -160,12 +160,6 @@ class MainWindow(QMainWindow):
          self.selected_file = filePath
          self.parameters.setText( os.path.basename((self.selected_file)) )
          metadata_filepath = self.parser.check_for_mtd_file(Path(self.tree_model.filePath(index)))
-         
-         # If preview is the placeholder label, replace placehoder with file info
-         # panels
-         if isinstance(self.preview,QLabel):
-            self.preview.setParent(None)
-            self.preview = None
 
          self.update_render(filePath)
             
@@ -260,9 +254,6 @@ class MainWindow(QMainWindow):
       self.parameters.setText("File Parameters")
       self.right_column_lo.addWidget(self.parameters)
 
-      # Image preview widget
-      self.preview = QLabel()
-      self.right_column_lo.addWidget(self.preview)
       self.renders_layout = QVBoxLayout()
       self.right_column_lo.addLayout(self.renders_layout)
 
@@ -334,9 +325,12 @@ if __name__ == "__main__":
 
    # Basic QT window
    app = QApplication([])
+   
    with open("stylesheet.qss") as fh:
       app.setStyleSheet(fh.read())
+
    window = MainWindow()
+
    window.show()
    sys.exit(app.exec_())
 
