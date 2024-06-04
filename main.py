@@ -256,10 +256,11 @@ class MainWindow(QMainWindow):
 
             # Create an actor
             self.actor = vtkActor()
+            self.actor.GetProperty().SetDiffuseColor(self.colors.GetColor3d('LightSteelBlue'))
             self.actor.SetMapper(self.mapper)
 
             self.ren.AddActor(self.actor)
-            self.ren.SetBackground(self.colors.GetColor3d('DarkCyan'))
+            self.ren.SetBackground(self.colors.GetColor3d('DimGray'))
 
             self.ren.ResetCamera()
 
@@ -291,10 +292,11 @@ class MainWindow(QMainWindow):
 
             # Create an actor
             self.actor = vtkActor()
+            self.actor.GetProperty().SetDiffuseColor(self.colors.GetColor3d('LightSteelBlue'))
             self.actor.SetMapper(self.mapper)
 
             self.ren.AddActor(self.actor)
-            self.ren.SetBackground(self.colors.GetColor3d('DarkCyan'))
+            self.ren.SetBackground(self.colors.GetColor3d('DimGray'))
 
             self.ren.ResetCamera()
 
@@ -313,8 +315,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-   # logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-   # logging.info("Logging initialized")
+   logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+   logging.info("Logging initialized")
 
    # Basic QT window
    app = QApplication([])
