@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
       # TODO replace with SQLite handler
       # Initialize file parser
       self.parser = FileTreeParser(self.current_dir)
-      self.parser.scan_for_metadata()
+      #self.parser.scan_for_metadata()
 
 
    def init_layouts(self):
