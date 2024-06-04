@@ -108,7 +108,6 @@ class MainWindow(QMainWindow):
       Go back a previous directory with default Back button
       """
       pathName = Path(self.current_dir).parent.absolute()
-      print(pathName)
 
       self.current_dir = str(pathName)
       self.current_dir_wid.setText(self.current_dir)
@@ -309,8 +308,6 @@ class MainWindow(QMainWindow):
 
 
    def update_current_dir(self, text):
-      #print(self.filemap)
-      #self.current_dir = self.filemap[text]
       self.current_dir_wid.setText(self.current_dir)
 
 
