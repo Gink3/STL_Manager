@@ -73,65 +73,20 @@ class MainWindow(QMainWindow):
 
    def __init__(self, parent = None):
       QMainWindow.__init__(self, parent)
+      # TODO Add handler for Crtl + C to close window
 
       self.selected_file = None
       self.colors = vtkNamedColors()
 
-      # Initialize config parser
-      self.config = configparser.ConfigParser()
-      self.config.read('config.txt')
-      self.current_dir = self.config['DEFAULT']['LibraryRoot']
-      logging.info("LibraryRoot: " + self.current_dir)
-
-      # Initialize file parser
-      self.parser = FileTreeParser(self.current_dir)
-      self.parser.scan_for_metadata()
-
-      # Highest level widget
-      self.high_box = QHBoxLayout()
+      self.init_config()
+      self.init_parser()
+      self.init_layouts()
 
       # TODO Add toolbar menu
-
-      # Add left column layout
-      self.left_column_lo = QVBoxLayout()
-      self.high_box.addLayout(self.left_column_lo)
-      
-      # # Add right column layout
-      self.right_column_lo = QVBoxLayout()
-      self.high_box.addLayout(self.right_column_lo)
-
-      self.top_right_lo = QHBoxLayout()
-      self.right_column_lo.addLayout(self.top_right_lo)
-
-      self.top_left_lo = QHBoxLayout()
-      self.left_column_lo.addLayout(self.top_left_lo)
-
-      # Search Text box
-      self.search_text = QLineEdit()
-      self.search_text.setPlaceholderText("Search Text")
-      self.top_right_lo.addWidget(self.search_text)
-
-      # Search button
-      self.search_button = QPushButton(text="Search")
-      self.top_right_lo.addWidget(self.search_button)
-
-      # File Parameter Label
-      self.parameters = QLabel()
-      self.parameters.setText("File Parameters")
-      self.right_column_lo.addWidget(self.parameters)
-
-      # Image preview widget
-      self.preview = QLabel()
-      self.right_column_lo.addWidget(self.preview)
-      
-      self.renders_layout = QVBoxLayout()
-      self.right_column_lo.addLayout(self.renders_layout)
-      
-      # Current Directory Box
-      # TODO Added functionality to update the list if the text is changed to a valid directory 
-      self.current_dir_wid = QLineEdit()
-      self.current_dir_wid.setText(self.current_dir)
-      self.top_left_lo.addWidget(self.current_dir_wid, 75)
+      # Could break down the rest of the init functions to go by column
+      self.init_search()
+      self.init_right_column()
+      self.init_current_dir_box()
 
       # # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
@@ -139,11 +94,6 @@ class MainWindow(QMainWindow):
       self.init_window_settings()
       self.init_file_explorer()
       self.init_back_button()
-      
-      # self.list_widget.currentItemChanged.connect(self.index_changed)
-      # self.list_widget.currentTextChanged.connect(self.text_changed)
-      self.tree.doubleClicked.connect(self.double_click_file)
-      self.tree.clicked.connect(self.click_file)
 
       self.main_widget = QWidget()
       self.main_widget.setLayout(self.high_box)
@@ -255,6 +205,72 @@ class MainWindow(QMainWindow):
       self.iren.Initialize()
 
 
+   def init_config(self):
+      # Initialize config parser
+      self.config = configparser.ConfigParser()
+      self.config.read('config.txt')
+      self.current_dir = self.config['DEFAULT']['LibraryRoot']
+      logging.info("LibraryRoot: " + self.current_dir)
+
+
+   def init_parser(self):
+      # TODO replace with SQLite handler
+      # Initialize file parser
+      self.parser = FileTreeParser(self.current_dir)
+      self.parser.scan_for_metadata()
+
+
+   def init_layouts(self):
+      # Highest level widget
+      self.high_box = QHBoxLayout()
+
+      # Add left column layout
+      self.left_column_lo = QVBoxLayout()
+      self.high_box.addLayout(self.left_column_lo)
+      
+      # # Add right column layout
+      self.right_column_lo = QVBoxLayout()
+      self.high_box.addLayout(self.right_column_lo)
+
+      self.top_right_lo = QHBoxLayout()
+      self.right_column_lo.addLayout(self.top_right_lo)
+
+      self.top_left_lo = QHBoxLayout()
+      self.left_column_lo.addLayout(self.top_left_lo)
+
+
+   def init_search(self):
+      # Search Text box
+      self.search_text = QLineEdit()
+      self.search_text.setPlaceholderText("Search Text")
+      self.top_right_lo.addWidget(self.search_text)
+
+      # Search button
+      self.search_button = QPushButton(text="Search")
+      self.top_right_lo.addWidget(self.search_button)
+
+
+   def init_right_column(self):
+      # File Parameter Label
+      self.parameters = QLabel()
+      self.parameters.setText("File Parameters")
+      self.right_column_lo.addWidget(self.parameters)
+
+      # Image preview widget
+      self.preview = QLabel()
+      self.right_column_lo.addWidget(self.preview)
+      self.renders_layout = QVBoxLayout()
+      self.right_column_lo.addLayout(self.renders_layout)
+
+
+   def init_current_dir_box(self):
+      # Current Directory Box
+      # TODO Added functionality to update the list if the text is changed to a valid directory 
+      self.current_dir_wid = QLineEdit()
+      self.current_dir_wid.setText(self.current_dir)
+      self.top_left_lo.addWidget(self.current_dir_wid, 75)
+
+
    def init_window_settings(self):
       self.setWindowTitle("STL Manager")
       self.window_width = self.config.getint('DEFAULT','DefaultWidth')
@@ -289,7 +305,12 @@ class MainWindow(QMainWindow):
       
       # Resize name row
       old_length = self.tree.columnWidth(0)
-      self.tree.setColumnWidth(0, old_length * 2)
+      self.tree.setColumnWidth(0, old_length * 3)
+
+      # self.list_widget.currentItemChanged.connect(self.index_changed)
+      # self.list_widget.currentTextChanged.connect(self.text_changed)
+      self.tree.doubleClicked.connect(self.double_click_file)
+      self.tree.clicked.connect(self.click_file)
 
 
    def update_current_dir(self, text):
