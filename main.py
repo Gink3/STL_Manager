@@ -315,7 +315,12 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-   logging.basicConfig(filename='stl_manager.log', encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+   
+   logFile ='stl_manager.log'
+   if (os.path.exists(logFile)):
+      os.remove(logFile)
+   
+   logging.basicConfig(filename=logFile, encoding='utf-8', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
    logging.info("Logging initialized")
 
    # Basic QT window
