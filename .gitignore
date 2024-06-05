@@ -163,3 +163,4 @@ cython_debug/
 .$AppView.drawio.*
 *.stl
 .*.mtd
+stl_data.db
