@@ -1,4 +1,4 @@
 [DEFAULT]
-LibraryRoot = /home/gink/Documents/stl_test_dir
-DefaultWidth = 900
-DefaultHeight = 500
+LibraryRoot = D:\Documents\TEST_STL_DIR
+DefaultWidth = 1600
+DefaultHeight = 1200

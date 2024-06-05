@@ -1,4 +1,0 @@
-[DEFAULT]
-LibraryRoot = D:\Documents\TEST_STL_DIR
-DefaultWidth = 1600
-DefaultHeight = 1200

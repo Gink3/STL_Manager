@@ -201,7 +201,7 @@ class MainWindow(QMainWindow):
    def init_config(self):
       # Initialize config parser
       self.config = configparser.ConfigParser()
-      self.config.read('config.txt')
+      self.config.read('dev/config.txt')
       self.current_dir = self.config['DEFAULT']['LibraryRoot']
       logging.info("LibraryRoot: " + self.current_dir)
 
@@ -308,8 +308,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-
-   logFile ='stl_manager.log'
+   # Initalize logs
+   logFile = os.path.join("logs","stl_manager.log")
    if (os.path.exists(logFile)):
       os.remove(logFile)
    
