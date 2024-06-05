@@ -1,7 +1,8 @@
 import sys
+
+# DO NOT REMOVE. vtk IS BEING USED
+# WILL BREAK RENDER WIDGET INTERACTION
 import vtk
-from PyQt5 import QtCore, QtGui
-from PyQt5 import Qt
 
 from PyQt5.QtCore import QSize, Qt, QSortFilterProxyModel
 from PyQt5.QtGui import QPixmap
@@ -37,7 +38,6 @@ import configparser
 import sys
 from pathlib import Path
 
-# https://docs.python.org/3/howto/logging.html#logging-basic-tutorial
 import logging
 import os
 
@@ -47,8 +47,6 @@ import signal
 
 # handle Ctrl + C
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-
-# TODO Setup PEP-8 linter
 
 # class HandleFileTypesProxy(QSortFilterProxyModel):
 #    """
@@ -73,10 +71,8 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 #       return True
 
 class MainWindow(QMainWindow):
-
    def __init__(self, parent = None):
       QMainWindow.__init__(self, parent)
-      # TODO Add handler for Crtl + C to close window
 
       self.selected_file = None
       self.colors = vtkNamedColors()
