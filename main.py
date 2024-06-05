@@ -43,6 +43,8 @@ import os
 
 from file_tree import FileTreeParser 
 
+from filedb import FileDB
+
 import signal
 
 # handle Ctrl + C
@@ -74,25 +76,26 @@ class MainWindow(QMainWindow):
    def __init__(self, parent = None):
       QMainWindow.__init__(self, parent)
 
+      self._init_db()
       self.selected_file = None
       self.colors = vtkNamedColors()
 
-      self.init_config()
-      self.init_parser()
-      self.init_layouts()
+      self._init_config()
+      self._init_parser()
+      self._init_layouts()
 
       # TODO Add toolbar menu
       # Could break down the rest of the init functions to go by column
-      self.init_search()
-      self.init_right_column()
-      self.init_current_dir_box()
+      self._init_search()
+      self._init_right_column()
+      self._init_current_dir_box()
 
       # # Map the displayed filenames to the full paths for later manipulation
       self.filemap = self.parser.list_model_files(self.parser.get_root_path())
 
-      self.init_window_settings()
-      self.init_file_explorer()
-      self.init_back_button()
+      self._init_window_settings()
+      self._init_file_explorer()
+      self._init_back_button()
 
       self.main_widget = QWidget(objectName='main_widget')
       self.main_widget.setLayout(self.high_box)
@@ -198,7 +201,7 @@ class MainWindow(QMainWindow):
       self.iren.Initialize()
 
 
-   def init_config(self):
+   def _init_config(self):
       # Initialize config parser
       self.config = configparser.ConfigParser()
       self.config.read('dev/config.txt')
@@ -206,14 +209,14 @@ class MainWindow(QMainWindow):
       logging.info("LibraryRoot: " + self.current_dir)
 
 
-   def init_parser(self):
+   def _init_parser(self):
       # TODO replace with SQLite handler
       # Initialize file parser
       self.parser = FileTreeParser(self.current_dir)
       #self.parser.scan_for_metadata()
 
 
-   def init_layouts(self):
+   def _init_layouts(self):
       # Highest level widget
       self.high_box = QHBoxLayout()
 
@@ -232,7 +235,7 @@ class MainWindow(QMainWindow):
       self.left_column_lo.addLayout(self.top_left_lo)
 
 
-   def init_search(self):
+   def _init_search(self):
       # Search Text box
       self.search_text = QLineEdit()
       self.search_text.setPlaceholderText("Search Text")
@@ -243,7 +246,7 @@ class MainWindow(QMainWindow):
       self.top_right_lo.addWidget(self.search_button)
 
 
-   def init_right_column(self):
+   def _init_right_column(self):
       # File Parameter Label
       self.parameters = QLabel()
       self.parameters.setText("File Parameters")
@@ -253,7 +256,7 @@ class MainWindow(QMainWindow):
       self.right_column_lo.addLayout(self.renders_layout)
 
 
-   def init_current_dir_box(self):
+   def _init_current_dir_box(self):
       # Current Directory Box
       # TODO Added functionality to update the list if the text is changed to a valid directory 
       self.current_dir_wid = QLineEdit()
@@ -261,14 +264,14 @@ class MainWindow(QMainWindow):
       self.top_left_lo.addWidget(self.current_dir_wid, 75)
 
 
-   def init_window_settings(self):
+   def _init_window_settings(self):
       self.setWindowTitle("STL Manager")
       self.window_width = self.config.getint('DEFAULT','DefaultWidth')
       self.window_height = self.config.getint('DEFAULT','Defaultheight')
       self.resize(QSize(self.window_width, self.window_height))
 
 
-   def init_back_button(self):
+   def _init_back_button(self):
       # Back Button
       self.backbutton = QPushButton(text="Back")
       self.top_left_lo.addWidget(self.backbutton, 25)
@@ -276,7 +279,7 @@ class MainWindow(QMainWindow):
       self.left_column_lo.addWidget(self.tree)   
 
 
-   def init_file_explorer(self):
+   def _init_file_explorer(self):
       # File explorer viewer
       self.tree_model = QFileSystemModel()
       self.idx = self.tree_model.setRootPath(self.current_dir)   
@@ -301,6 +304,11 @@ class MainWindow(QMainWindow):
       # self.list_widget.currentTextChanged.connect(self.text_changed)
       self.tree.doubleClicked.connect(self.double_click_file)
       self.tree.clicked.connect(self.click_file)
+
+
+   def _init_db(self):
+      logging.info("Initializing FileDB")
+      self.db = FileDB()
 
 
    def update_current_dir(self, text):
