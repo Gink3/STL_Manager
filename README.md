@@ -9,8 +9,23 @@
 # Install & Running #
 After cloning repo change the library root directory path in config.txt to a valid absolute path
 
-# Development #
+
+Then run `python -m pip install -r requirements.txt` to install required packages
+To run the program run `python  ./src/main.py`
+
+
+# Development Tasks #
+[ ] File Metadata display
+[ ] Initial Config dialog
+[ ] Allow for multiple "library" directories
+[ ] Add drop down to select between the different library directories
 
 ## Key Terms ##
 * Model file - file like .stl, .obj
-* Metadata file - holds the metadata for each model file, in the format `.<model file>.mtd`
+* Metadata -
+   * Unique hash
+   * Absolute Filepath
+   * Sculptor
+   * Source
+   * Tags
+   * Notes
